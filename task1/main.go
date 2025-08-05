@@ -1,6 +1,7 @@
 package main
 
 import (
+	"sort"
 	"strconv"
 )
 
@@ -10,6 +11,19 @@ func singleNumber(nums []int) int {
 		result ^= v
 	}
 	return result
+}
+
+func singleNumberNew(nums []int) int {
+	mapNum2Count := make(map[int]int)
+	for _, num := range nums {
+		mapNum2Count[num]++
+	}
+	for num, count := range mapNum2Count {
+		if count == 1 {
+			return num
+		}
+	}
+	return 0
 }
 
 func isPalindrome(x int) bool {
@@ -72,46 +86,46 @@ func isValid(s string) bool {
 }
 
 func longestCommonPrefix(strs []string) string {
-    for i := 0; i < len(strs[0]); i++ {
-        var cur_char byte = strs[0][i]
-        for _, s := range strs {
-            if len(s) <= i  || cur_char != s[i] {
-                return strs[0][:i]
-            }
-        }
-    }
-    return strs[0]
+	for i := 0; i < len(strs[0]); i++ {
+		var cur_char byte = strs[0][i]
+		for _, s := range strs {
+			if len(s) <= i || cur_char != s[i] {
+				return strs[0][:i]
+			}
+		}
+	}
+	return strs[0]
 }
 
 func plusOne(digits []int) []int {
 	// 每一位+1
-    for _, digit := range digits {
+	for _, digit := range digits {
 		digit++
 	}
 	// 进位
 	for i := len(digits) - 1; i > 0; i-- {
-		if (digits[i] > 9) {
+		if digits[i] > 9 {
 			digits[i] = digits[i] - 10
-			digits[i - 1]++
+			digits[i-1]++
 		}
 	}
 	// 看第一位
-	if (digits[0] > 9) {
+	if digits[0] > 9 {
 		digits[0] = digits[0] - 10
 		digits = append([]int{1}, digits...)
 	}
-    return digits
+	return digits
 }
 
 func removeDuplicates(nums []int) int {
-    curReplaceIndex := 1 // 当前要替换的位置
-    for i := 1; i < len(nums); i++ {
-        if (nums[i] != nums[i - 1]) {
-            nums[curReplaceIndex] = nums[i]
-            curReplaceIndex ++
-        }
-    }
-    return curReplaceIndex
+	curReplaceIndex := 1 // 当前要替换的位置
+	for i := 1; i < len(nums); i++ {
+		if nums[i] != nums[i-1] {
+			nums[curReplaceIndex] = nums[i]
+			curReplaceIndex++
+		}
+	}
+	return curReplaceIndex
 }
 
 func merge(intervals [][]int) [][]int {
@@ -122,26 +136,26 @@ func merge(intervals [][]int) [][]int {
 	})
 	for _, interval := range intervals {
 		// res为空或者不相交，直接添加
-		if len(res_intervals) == 0 || res_intervals[len(res_intervals) - 1][1] < interval[0] {
+		if len(res_intervals) == 0 || res_intervals[len(res_intervals)-1][1] < interval[0] {
 			res_intervals = append(res_intervals, interval)
 		}
 		// 合并这一块
-		res_intervals[len(res_intervals) - 1][1] = max(res_intervals[len(res_intervals) - 1][1], interval[1])
+		res_intervals[len(res_intervals)-1][1] = max(res_intervals[len(res_intervals)-1][1], interval[1])
 	}
 	return res_intervals
 }
 
 func twoSum(nums []int, target int) []int {
-    num2sub := map[int]int{}
-    for cur_index, num := range nums {
-        index, exist := num2sub[num]
-        if exist {
-            return []int{cur_index, index}
-        } else {
-            num2sub[target - num] = cur_index
-        }
-    }
-    return []int{}
+	num2sub := map[int]int{}
+	for cur_index, num := range nums {
+		index, exist := num2sub[num]
+		if exist {
+			return []int{cur_index, index}
+		} else {
+			num2sub[target-num] = cur_index
+		}
+	}
+	return []int{}
 }
 
 func main() {
@@ -151,8 +165,9 @@ func main() {
 	println(isValid("()"))
 	println(isValid("()}"))
 	println(isValid("{()}"))
-	println(longestCommonPrefix(["flower","flow","flight"]))
-	println(longestCommonPrefix("(){}{{}}"))
 
-
+	println(singleNumberNew([]int{1, 2, 2, 3, 3}))
+	println(singleNumberNew([]int{2}))
+	println(singleNumberNew([]int{1, 1, 4, 2, 2, 3, 3}))
+	println(singleNumberNew([]int{1}))
 }
