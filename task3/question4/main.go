@@ -176,6 +176,8 @@ func main() {
 	// db.Delete(&comment)
 
 	var post Post
-	db.Find(&post, 2)
+	result := db.Find(&post, 996)
+	fmt.Println(result)
+	fmt.Println(post)
 	db.Delete(&post)
 }
